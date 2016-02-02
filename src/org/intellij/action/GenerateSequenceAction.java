@@ -9,6 +9,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiMethod;
 import org.intellij.component.SequencePlugin;
 import org.intellij.component.TestShowApplication;
+import org.intellij.generator.SequenceGenerator;
 
 /**
  * Generate sequence graph action
@@ -19,13 +20,14 @@ public class GenerateSequenceAction extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent actionEvent) {
         SequencePlugin plugin = getPlugin(actionEvent);
-
         PsiMethod psiMethod = plugin.getCurrentPsiMethod();
+
+        SequenceGenerator generator = new SequenceGenerator(psiMethod);
 
         Application application = ApplicationManager.getApplication();
         TestShowApplication testShow = application.getComponent(TestShowApplication.class);
         if (testShow != null) {
-            testShow.testShow(psiMethod.getName());
+            testShow.testShow(generator.get());
         }
     }
 
