@@ -41,4 +41,9 @@
       <implementation-class>org.intellij.component.TestShowApplication</implementation-class>
     </component>
   </application-components>
+  <project-components>
+    <component>
+      <implementation-class>org.intellij.component.SequencePlugin</implementation-class>
+    </component>
+  </project-components>
 </idea-plugin>

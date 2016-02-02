@@ -5,6 +5,7 @@ import com.intellij.openapi.ui.Messages;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Test dialog for showing test information
  * Created by ryker.zhang on 2016/2/2.
  */
 public class TestShowApplication implements ApplicationComponent {
@@ -13,12 +14,10 @@ public class TestShowApplication implements ApplicationComponent {
 
     @Override
     public void initComponent() {
-        // TODO: insert component initialization logic here
     }
 
     @Override
     public void disposeComponent() {
-        // TODO: insert component disposal logic here
     }
 
     @Override
@@ -27,7 +26,7 @@ public class TestShowApplication implements ApplicationComponent {
         return "TestShowApplication";
     }
 
-    public void testShow() {
-        Messages.showMessageDialog("Hello", "Sample", Messages.getInformationIcon());
+    public void testShow(String context) {
+        Messages.showMessageDialog(context, "Sample", Messages.getInformationIcon());
     }
 }
