@@ -24,9 +24,11 @@ public class SequenceGenerator extends JavaElementVisitor {
     @Override
     public void visitMethodCallExpression(PsiMethodCallExpression psiMethodCallExpression) {
         PsiMethod psiMethod = psiMethodCallExpression.resolveMethod();
-        text += psiMethod.getName();
-        text += "\n";
-        psiMethod.accept(this);
+        if (psiMethod != null) {
+            text += psiMethod.getName();
+            text += "\n";
+            psiMethod.accept(this);
+        }
         super.visitMethodCallExpression(psiMethodCallExpression);
     }
 
