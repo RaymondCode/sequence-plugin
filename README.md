@@ -1,2 +1,2 @@
 # sequence-plugin
-plugin
+plugin for sequence graph
