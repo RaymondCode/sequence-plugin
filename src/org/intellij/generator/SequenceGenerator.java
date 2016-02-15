@@ -4,15 +4,16 @@ import com.intellij.psi.JavaElementVisitor;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiMethodCallExpression;
-import org.intellij.utils.PsiUtil;
+import org.intellij.utils.UmlFormatUtil;
 
 import java.util.Stack;
 
 /**
+ * Generate PlantUML script of current method
  * Created by ryker.zhang on 2016/2/2.
  */
 public class SequenceGenerator extends JavaElementVisitor {
-    String text = "";
+    String plantUMLScript = "";
     Stack<PsiMethod> methodStack = new Stack<>();
 
     public SequenceGenerator(PsiMethod psiMethod) {
@@ -22,7 +23,7 @@ public class SequenceGenerator extends JavaElementVisitor {
 
     @Override
     public void visitElement(PsiElement psiElement) {
-        PsiUtil.acceptChildren(psiElement, this);
+        psiElement.acceptChildren(this);
     }
 
     @Override
@@ -33,13 +34,9 @@ public class SequenceGenerator extends JavaElementVisitor {
         if (psiMethod != null) {
             methodStack.push(psiMethod);
 
-            text += baseMethod.getName() + "->" + psiMethod.getName();
-            text += "\n";
-
+            plantUMLScript += UmlFormatUtil.out(baseMethod, psiMethod);
             psiMethod.accept(this);
-
-            text += baseMethod.getName() + "<-" + psiMethod.getName();
-            text += "\n";
+            plantUMLScript += UmlFormatUtil.in(baseMethod, psiMethod);
 
             // Make sure the initial method not deleted
             if (methodStack.size() > 1) {
@@ -51,6 +48,6 @@ public class SequenceGenerator extends JavaElementVisitor {
     }
 
     public String get() {
-        return text;
+        return plantUMLScript;
     }
 }
