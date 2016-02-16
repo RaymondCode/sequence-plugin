@@ -13,8 +13,9 @@ import java.util.Stack;
  * Created by ryker.zhang on 2016/2/2.
  */
 public class SequenceGenerator extends JavaElementVisitor {
-    String plantUMLScript = "";
-    Stack<PsiMethod> methodStack = new Stack<>();
+    private String plantUMLScript = "";
+    private Stack<PsiMethod> methodStack = new Stack<>();
+    private final Integer LIMIT = 3;
 
     public SequenceGenerator(PsiMethod psiMethod) {
         methodStack.push(psiMethod);
@@ -31,7 +32,7 @@ public class SequenceGenerator extends JavaElementVisitor {
         PsiMethod psiMethod = psiMethodCallExpression.resolveMethod();
         PsiMethod baseMethod = methodStack.peek();
 
-        if (psiMethod != null) {
+        if (psiMethod != null && methodStack.size() <= LIMIT) {
             methodStack.push(psiMethod);
 
             plantUMLScript += UmlFormatUtil.out(baseMethod, psiMethod);
