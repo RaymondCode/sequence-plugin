@@ -4,6 +4,7 @@ import com.intellij.psi.JavaElementVisitor;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiMethodCallExpression;
+import com.intellij.psi.util.PropertyUtil;
 import org.intellij.utils.UmlFormatUtil;
 
 import java.util.Stack;
@@ -33,15 +34,17 @@ public class SequenceGenerator extends JavaElementVisitor {
         PsiMethod baseMethod = methodStack.peek();
 
         if (psiMethod != null && methodStack.size() <= LIMIT) {
-            methodStack.push(psiMethod);
+            if (!PropertyUtil.isSimplePropertyGetter(psiMethod) && !PropertyUtil.isSimplePropertySetter(psiMethod)) {
+                methodStack.push(psiMethod);
 
-            plantUMLScript += UmlFormatUtil.out(baseMethod, psiMethod);
-            psiMethod.accept(this);
-            plantUMLScript += UmlFormatUtil.in(baseMethod, psiMethod);
+                plantUMLScript += UmlFormatUtil.out(baseMethod, psiMethod);
+                psiMethod.accept(this);
+                plantUMLScript += UmlFormatUtil.in(baseMethod, psiMethod);
 
-            // Make sure the initial method not deleted
-            if (methodStack.size() > 1) {
-                methodStack.pop();
+                // Make sure the initial method not deleted
+                if (methodStack.size() > 1) {
+                    methodStack.pop();
+                }
             }
         }
 
