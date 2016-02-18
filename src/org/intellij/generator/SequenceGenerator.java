@@ -4,9 +4,12 @@ import com.intellij.psi.JavaElementVisitor;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiMethodCallExpression;
-import com.intellij.psi.util.PropertyUtil;
+import org.intellij.generator.filter.MethodFilter;
+import org.intellij.generator.filter.NoGetterSetter;
 import org.intellij.utils.UmlFormatUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -17,8 +20,10 @@ public class SequenceGenerator extends JavaElementVisitor {
     private String plantUMLScript = "";
     private Stack<PsiMethod> methodStack = new Stack<>();
     private final Integer LIMIT = 3;
+    private final List<MethodFilter> filters = new ArrayList<>();
 
     public SequenceGenerator(PsiMethod psiMethod) {
+        filters.add(new NoGetterSetter());
         methodStack.push(psiMethod);
         psiMethod.accept(this);
     }
@@ -33,22 +38,30 @@ public class SequenceGenerator extends JavaElementVisitor {
         PsiMethod psiMethod = psiMethodCallExpression.resolveMethod();
         PsiMethod baseMethod = methodStack.peek();
 
-        if (psiMethod != null && methodStack.size() <= LIMIT) {
-            if (!PropertyUtil.isSimplePropertyGetter(psiMethod) && !PropertyUtil.isSimplePropertySetter(psiMethod)) {
-                methodStack.push(psiMethod);
+        if (psiMethod != null && !shouldSkip(psiMethod)) {
+            methodStack.push(psiMethod);
 
-                plantUMLScript += UmlFormatUtil.out(baseMethod, psiMethod);
-                psiMethod.accept(this);
-                plantUMLScript += UmlFormatUtil.in(baseMethod, psiMethod);
+            plantUMLScript += UmlFormatUtil.out(baseMethod, psiMethod);
+            psiMethod.accept(this);
+            plantUMLScript += UmlFormatUtil.in(baseMethod, psiMethod);
 
-                // Make sure the initial method not deleted
-                if (methodStack.size() > 1) {
-                    methodStack.pop();
-                }
+            // Make sure the initial method not deleted
+            if (methodStack.size() > 1) {
+                methodStack.pop();
             }
         }
 
         super.visitMethodCallExpression(psiMethodCallExpression);
+    }
+
+    private boolean shouldSkip(PsiMethod psiMethod) {
+        for (MethodFilter filter : filters) {
+            if (filter.skip(psiMethod)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public String get() {
