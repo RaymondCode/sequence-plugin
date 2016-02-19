@@ -11,6 +11,8 @@ import org.intellij.component.SequencePlugin;
 import org.intellij.component.TestShowApplication;
 import org.intellij.generator.SequenceGenerator;
 
+import java.io.IOException;
+
 /**
  * Generate sequence graph action
  * Created by ryker.zhang on 2016/2/2.
@@ -27,7 +29,11 @@ public class GenerateSequenceAction extends AnAction {
         Application application = ApplicationManager.getApplication();
         TestShowApplication testShow = application.getComponent(TestShowApplication.class);
         if (testShow != null) {
-            testShow.testShow(generator.get());
+            try {
+                testShow.testShow(generator.get());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
