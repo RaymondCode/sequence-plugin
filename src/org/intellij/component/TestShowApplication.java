@@ -39,6 +39,9 @@ public class TestShowApplication implements ApplicationComponent {
 
         SourceStringReader reader = new SourceStringReader(source);
         reader.generateImage(png);
+
+        png.close();
+
         Messages.showMessageDialog(context, "Sample", Messages.getInformationIcon());
     }
 }
