@@ -12,7 +12,7 @@ public class UmlFormatUtil {
     }
 
     public static String out(PsiMethod leftMethod, PsiMethod rightMethod) {
-        return connect(leftMethod, rightMethod, "-->") + "\n";
+        return connect(leftMethod, rightMethod, "->") + "\n";
     }
 
     private static String connect(PsiMethod leftMethod, PsiMethod rightMethod, String symbol) {
