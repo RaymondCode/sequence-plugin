@@ -40,7 +40,10 @@ public class TestShowApplication implements ApplicationComponent {
         SourceStringReader reader = new SourceStringReader(source);
         reader.generateImage(png);
 
-        png.close();
+        try {
+            png.close();
+        } catch (Exception ignored) {
+        }
 
         Messages.showMessageDialog(context, "Sample", Messages.getInformationIcon());
     }
