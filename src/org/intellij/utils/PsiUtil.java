@@ -99,8 +99,4 @@ public class PsiUtil {
         }
         return null;
     }
-
-    public static void acceptChildren(PsiElement psiElement, PsiElementVisitor visitor) {
-        psiElement.acceptChildren(visitor);
-    }
 }
