@@ -7,6 +7,7 @@ import com.intellij.psi.PsiMethodCallExpression;
 import org.intellij.utils.PsiUtil;
 
 /**
+ * Generate sequence scripts
  * Created by ryker.zhang on 2016/2/2.
  */
 public class SequenceGenerator extends JavaElementVisitor {
