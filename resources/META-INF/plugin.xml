@@ -26,7 +26,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
-        <toolWindow id="Graph" anchor="right" factoryClass="org.intellij.component.GraphWindow"/>
+        <toolWindow id="Graph" anchor="bottom" factoryClass="org.intellij.component.GraphWindow"/>
     </extensions>
 
     <actions>
