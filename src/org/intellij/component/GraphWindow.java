@@ -28,7 +28,7 @@ public class GraphWindow implements ToolWindowFactory {
         Content content = contentFactory.createContent(myToolWindowContent, "", false);
         toolWindow.getContentManager().addContent(content);
 
-        BufferedImage myPicture = null;
+        BufferedImage myPicture;
         try {
             myPicture = ImageIO.read(new File("D:\\test\\test.png"));
             label.setIcon(new ImageIcon(myPicture));
