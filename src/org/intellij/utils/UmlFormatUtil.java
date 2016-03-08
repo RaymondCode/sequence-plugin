@@ -7,6 +7,10 @@ import com.intellij.psi.PsiMethod;
  * Created by ryker.zhang on 2016/2/15.
  */
 public class UmlFormatUtil {
+    public static String addTag(String script) {
+        return "@startuml\n" + script + "@enduml\n";
+    }
+
     public static String in(PsiMethod leftMethod, PsiMethod rightMethod) {
         return connect(leftMethod, rightMethod, "<--") + "\n";
     }
