@@ -37,7 +37,11 @@ public class GraphWindow implements ToolWindowFactory {
         source += "Bob -> Alice : hello\n";
         source += "@enduml\n";
 
-        SourceStringReader reader = new SourceStringReader(source);
+        updateImageWithUML(source, label);
+    }
+
+    public static void updateImageWithUML(String umlSource, JLabel imageLabel) {
+        SourceStringReader reader = new SourceStringReader(umlSource);
 
         try {
             ByteArrayOutputStream png = new ByteArrayOutputStream();
@@ -45,7 +49,8 @@ public class GraphWindow implements ToolWindowFactory {
 
             ByteArrayInputStream input = new ByteArrayInputStream(png.toByteArray());
             BufferedImage myPicture = ImageIO.read(input);
-            label.setIcon(new ImageIcon(myPicture));
+
+            imageLabel.setIcon(new ImageIcon(myPicture));
 
             png.close();
         } catch (IOException e) {
