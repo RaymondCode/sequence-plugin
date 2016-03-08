@@ -33,7 +33,7 @@ public class GenerateSequenceAction extends AnAction {
 
         Project project = actionEvent.getRequiredData(CommonDataKeys.PROJECT);
 
-        updateUMLImage(project);
+        updateUMLImage(project, generator);
 
         Application application = ApplicationManager.getApplication();
         TestShowApplication testShow = application.getComponent(TestShowApplication.class);
@@ -46,18 +46,17 @@ public class GenerateSequenceAction extends AnAction {
         }
     }
 
-    private void updateUMLImage(Project project) {
+    private void updateUMLImage(Project project, SequenceGenerator generator) {
         ToolWindowManager windowManager = ToolWindowManager.getInstance(project);
         ToolWindow toolWindow = windowManager.getToolWindow("Graph");
+        toolWindow.activate(null);
         Content content = toolWindow.getContentManager().getContent(0);
-        JPanel panel = (JPanel) content.getComponent();
-        JLabel label = (JLabel) panel.getComponent(0);
 
-        String source = "@startuml\n";
-        source += "ButtonBob -> Alice : hello\n";
-        source += "@enduml\n";
-
-        GraphWindow.updateImageWithUML(source, label);
+        if (content != null) {
+            JPanel panel = (JPanel) content.getComponent();
+            JLabel label = (JLabel) panel.getComponent(0);
+            GraphWindow.updateImageWithUML(generator.get(), label);
+        }
     }
 
     private SequencePlugin getPlugin(AnActionEvent event) {

@@ -65,6 +65,9 @@ public class SequenceGenerator extends JavaElementVisitor {
     }
 
     public String get() {
-        return plantUMLScript;
+        String source = "@startuml\n";
+        source += plantUMLScript;
+        source += "@enduml\n";
+        return source;
     }
 }
