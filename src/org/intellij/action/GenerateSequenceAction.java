@@ -49,13 +49,15 @@ public class GenerateSequenceAction extends AnAction {
     private void updateUMLImage(Project project, SequenceGenerator generator) {
         ToolWindowManager windowManager = ToolWindowManager.getInstance(project);
         ToolWindow toolWindow = windowManager.getToolWindow("Graph");
-        toolWindow.activate(null);
-        Content content = toolWindow.getContentManager().getContent(0);
 
-        if (content != null) {
-            JPanel panel = (JPanel) content.getComponent();
-            JLabel label = (JLabel) panel.getComponent(0);
-            GraphWindow.updateImageWithUML(generator.get(), label);
+        if (toolWindow.isVisible()) {
+            Content content = toolWindow.getContentManager().getContent(0);
+
+            if (content != null && content.isValid()) {
+                JPanel panel = (JPanel) content.getComponent();
+                JLabel label = (JLabel) panel.getComponent(0);
+                GraphWindow.updateImageWithUML(generator.get(), label);
+            }
         }
     }
 
