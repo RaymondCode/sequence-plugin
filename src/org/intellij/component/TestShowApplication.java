@@ -32,19 +32,6 @@ public class TestShowApplication implements ApplicationComponent {
     }
 
     public void testShow(String context) throws IOException {
-        OutputStream png = new FileOutputStream("D:\\test\\test.png");
-        String source = "@startuml\n";
-        source += "Bob -> Alice : hello\n";
-        source += "@enduml\n";
-
-        SourceStringReader reader = new SourceStringReader(source);
-        reader.generateImage(png);
-
-        try {
-            png.close();
-        } catch (Exception ignored) {
-        }
-
         Messages.showMessageDialog(context, "Sample", Messages.getInformationIcon());
     }
 }
