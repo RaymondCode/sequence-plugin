@@ -7,6 +7,7 @@ import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import net.sourceforge.plantuml.SourceStringReader;
+import org.intellij.generator.SequenceGenerator;
 import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
@@ -17,30 +18,33 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
+ * UML绘图窗口
  * Created by ryker.zhang on 2016/3/1.
  */
 public class GraphWindow implements ToolWindowFactory {
     private static Logger logger = Logger.getInstance(GraphWindow.class);
 
     private JPanel myToolWindowContent;
-    private ToolWindow myToolWindow;
     private JLabel label;
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
-        myToolWindow = toolWindow;
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
         Content content = contentFactory.createContent(myToolWindowContent, "", false);
         toolWindow.getContentManager().addContent(content);
-
-        String source = "@startuml\n";
-        source += "Bob -> Alice : hello\n";
-        source += "@enduml\n";
-
-        updateImageWithUML(source, label);
     }
 
-    public static void updateImageWithUML(String umlSource, JLabel imageLabel) {
+    public static void generateUMLImage(final ToolWindow toolWindow, final SequenceGenerator generator) {
+        Content content = toolWindow.getContentManager().getContent(0);
+
+        if (content != null && content.isValid()) {
+            JPanel panel = (JPanel) content.getComponent();
+            JLabel label = (JLabel) panel.getComponent(0);
+            refreshImageWithUML(generator.get(), label);
+        }
+    }
+
+    private static void refreshImageWithUML(String umlSource, JLabel imageLabel) {
         SourceStringReader reader = new SourceStringReader(umlSource);
 
         try {
@@ -54,7 +58,7 @@ public class GraphWindow implements ToolWindowFactory {
 
             png.close();
         } catch (IOException e) {
-            logger.error("Generate uml image failed", e);
+            logger.error("Refresh uml image failed", e);
         }
     }
 }

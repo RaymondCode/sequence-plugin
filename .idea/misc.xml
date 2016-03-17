@@ -4,6 +4,7 @@
     <option name="defaultSettings" value="true" />
     <option name="id" value="1404354914151" />
     <option name="name" value="default" />
+    <option name="optimizeImports" value="false" />
     <option name="pathToConfigFileJava" value="D:/q/format/Qunar.xml" />
     <option name="selectedJavaProfile" value="Qunar" />
   </component>

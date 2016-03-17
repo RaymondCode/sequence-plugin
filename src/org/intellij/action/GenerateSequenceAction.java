@@ -9,14 +9,11 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.psi.PsiMethod;
-import com.intellij.ui.content.Content;
-import com.intellij.ui.content.ContentFactory;
 import org.intellij.component.GraphWindow;
 import org.intellij.component.SequencePlugin;
 import org.intellij.component.TestShowApplication;
 import org.intellij.generator.SequenceGenerator;
 
-import javax.swing.*;
 import java.io.IOException;
 
 /**
@@ -47,25 +44,17 @@ public class GenerateSequenceAction extends AnAction {
         }
     }
 
-    private void updateUMLImage(Project project, SequenceGenerator generator) {
+    private void updateUMLImage(final Project project, final SequenceGenerator generator) {
         ToolWindowManager windowManager = ToolWindowManager.getInstance(project);
         final ToolWindow toolWindow = windowManager.getToolWindow("Graph");
 
         if (toolWindow.isVisible()) {
-            Content content = toolWindow.getContentManager().getContent(0);
-
-            if (content != null && content.isValid()) {
-                JPanel panel = (JPanel) content.getComponent();
-                JLabel label = (JLabel) panel.getComponent(0);
-                GraphWindow.updateImageWithUML(generator.get(), label);
-            }
+            GraphWindow.generateUMLImage(toolWindow, generator);
         } else {
             toolWindow.show(new Runnable() {
                 @Override
                 public void run() {
-                    ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
-                    Content content = contentFactory.createContent(new JPanel(), "", false);
-                    toolWindow.getContentManager().addContent(content);
+                    GraphWindow.generateUMLImage(toolWindow, generator);
                 }
             });
         }
