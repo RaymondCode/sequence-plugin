@@ -2,12 +2,9 @@ package org.intellij.component;
 
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.ui.Messages;
-import net.sourceforge.plantuml.SourceStringReader;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
 /**
  * Test dialog for showing test information

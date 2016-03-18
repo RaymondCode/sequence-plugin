@@ -26,6 +26,7 @@ public class GraphWindow implements ToolWindowFactory {
 
     private JPanel myToolWindowContent;
     private JLabel label;
+    private JLabel umlText;
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
@@ -40,7 +41,9 @@ public class GraphWindow implements ToolWindowFactory {
         if (content != null && content.isValid()) {
             JPanel panel = (JPanel) content.getComponent();
             JLabel label = (JLabel) panel.getComponent(0);
+            JLabel umlTextLabel = (JLabel) panel.getComponent(1);
             refreshImageWithUML(generator.get(), label);
+            umlTextLabel.setText(generator.get());
         }
     }
 
