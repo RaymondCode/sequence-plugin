@@ -43,7 +43,9 @@ public class SequenceGenerator extends JavaElementVisitor {
 
             plantUMLScript += UmlFormatUtil.out(baseMethod, psiMethod);
             psiMethod.accept(this);
-            plantUMLScript += UmlFormatUtil.in(baseMethod, psiMethod);
+            if (!baseMethod.getContainingClass().equals(psiMethod.getContainingClass())) {
+                plantUMLScript += UmlFormatUtil.in(baseMethod, psiMethod);
+            }
 
             // Make sure the initial method not deleted
             if (methodStack.size() > 1) {
